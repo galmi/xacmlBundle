@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity repository-class="Galmi\XacmlBundle\Repository\PolicyRepository" name="Galmi\XacmlBundle\Entity\Policy"
+            table="policy">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+        </id>
+        <field name="version" column="version" type="integer" nullable="false"/>
+        <field name="description" column="description" type="string" nullable="true"/>
+        <field name="target" column="target" type="object" nullable="false"/>
+        <field name="ruleCombiningAlgId" column="rule_combining_alg_id" nullable="false"/>
+
+        <many-to-many target-entity="Galmi\XacmlBundle\Entity\Rule" field="rules">
+            <join-table name="target_rules">
+                <join-columns>
+                    <join-column name="rule_id" referenced-column-name="id" nullable="false"/>
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="target_id" referenced-column-name="id" nullable="false"/>
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+    </entity>
+</doctrine-mapping>

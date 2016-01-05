@@ -2,3 +2,32 @@ services:
 #    galmi_xacml.example:
 #        class: Galmi\XacmlBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
+  galmi_xacml.policy.normalizer:
+    class: Galmi\XacmlBundle\Serializer\Normalizer\PolicyNormalizer
+    tags:
+      - {name: serializer.normalizer}
+
+  galmi_xacml_request:
+    class: Galmi\Xacml\Request
+
+  galmi_xacml.pep:
+    class: Galmi\XacmlBundle\Xacml\PolicyEnforcementPoint
+    arguments: [@galmi_xacml_request]
+
+  listener.galmi_xacml_request_environment:
+    class: Galmi\XacmlBundle\EventListener\EnvironmentRequestListener
+    arguments: [@galmi_xacml_request]
+    tags:
+      - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+  galmi_xacml.xacml_request_subject:
+    class: Galmi\XacmlBundle\EventListener\SubjectRequestListener
+    arguments: [@galmi_xacml_request, @security.token_storage]
+    tags:
+      - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+  galmi_xacml.xacml_request_action:
+    class: Galmi\XacmlBundle\EventListener\ActionRequestListener
+    arguments: [@galmi_xacml_request]
+    tags:
+      - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
