@@ -1,7 +1,4 @@
 services:
-#    galmi_xacml.example:
-#        class: Galmi\XacmlBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
   galmi_xacml.policy.normalizer:
     class: Galmi\XacmlBundle\Serializer\Normalizer\PolicyNormalizer
     tags:
@@ -9,10 +6,6 @@ services:
 
   galmi_xacml_request:
     class: Galmi\Xacml\Request
-
-  galmi_xacml.pep:
-    class: Galmi\XacmlBundle\Xacml\PolicyEnforcementPoint
-    arguments: [@galmi_xacml_request]
 
   listener.galmi_xacml_request_environment:
     class: Galmi\XacmlBundle\EventListener\EnvironmentRequestListener
@@ -31,3 +24,19 @@ services:
     arguments: [@galmi_xacml_request]
     tags:
       - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+  galmi_xacml.xacml_request_resource:
+    class: Galmi\XacmlBundle\EventListener\ResourceRequestListener
+    arguments: [@galmi_xacml_request, @annotations.reader]
+    tags:
+      - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+  galmi_xacml.pep:
+    class: Galmi\XacmlBundle\Xacml\PolicyEnforcementPoint
+    arguments: [@galmi_xacml_request, @galmi_xacml.pdp]
+
+  galmi_xacml.pip:
+    class: Galmi\XacmlBundle\Xacml\PolicyInformationPoint
+
+  galmi_xacml.pdp:
+    class: Galmi\XacmlBundle\Xacml\PolicyDecisionPoint

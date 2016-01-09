@@ -15,11 +15,20 @@ class EnvironmentRequestListener
     /** @var XacmlRequest */
     private $xacmlRequest;
 
+    /**
+     * EnvironmentRequestListener constructor.
+     * @param XacmlRequest $xacmlRequest
+     */
     public function __construct(XacmlRequest $xacmlRequest)
     {
         $this->xacmlRequest = $xacmlRequest;
     }
 
+    /**
+     * Add environment information for request
+     *
+     * @param GetResponseEvent $request
+     */
     public function onKernelRequest(GetResponseEvent $request)
     {
         $dateTime = new \DateTime();

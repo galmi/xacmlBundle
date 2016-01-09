@@ -15,11 +15,20 @@ class ActionRequestListener
     /** @var XacmlRequest */
     private $xacmlRequest;
 
+    /**
+     * ActionRequestListener constructor.
+     * @param XacmlRequest $xacmlRequest
+     */
     public function __construct(XacmlRequest $xacmlRequest)
     {
         $this->xacmlRequest = $xacmlRequest;
     }
 
+    /**
+     * Add route name for request
+     *
+     * @param GetResponseEvent $request
+     */
     public function onKernelRequest(GetResponseEvent $request)
     {
         $this->xacmlRequest->set(

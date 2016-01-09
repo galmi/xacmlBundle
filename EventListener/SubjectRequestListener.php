@@ -19,14 +19,29 @@ class SubjectRequestListener
     /** @var TokenStorage */
     private $tokenStorage;
 
+    /**
+     * SubjectRequestListener constructor.
+     * @param XacmlRequest $xacmlRequest
+     * @param TokenStorage $tokenStorage
+     */
     public function __construct(XacmlRequest $xacmlRequest, TokenStorage $tokenStorage)
     {
         $this->xacmlRequest = $xacmlRequest;
         $this->tokenStorage = $tokenStorage;
     }
 
+    /**
+     * Add user info for request
+     *
+     * @param GetResponseEvent $request
+     */
     public function onKernelRequest(GetResponseEvent $request)
     {
-        $this->xacmlRequest->set($this->category, $this->tokenStorage->getToken()->getUser());
+        $token = $this->tokenStorage->getToken();
+        $user = null;
+        if (!is_null($token)) {
+            $user = $token->getUser();
+        }
+        $this->xacmlRequest->set($this->category, $user);
     }
 }

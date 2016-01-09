@@ -2,12 +2,16 @@
 
 namespace Galmi\XacmlBundle\Controller;
 
-use Galmi\XacmlBundle\Entity\Policy;
+use Galmi\XacmlBundle\Annotations\XacmlResource;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
+    /**
+     * @XacmlResource(entity="\Galmi\XacmlBundle\Entity\Policy", id="id")
+     * @return Response
+     */
     public function indexAction()
     {
 //        $target = new \Galmi\Xacml\Target();
