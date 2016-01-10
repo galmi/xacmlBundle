@@ -129,13 +129,11 @@ class PolicyInformationPointTest extends \PHPUnit_Framework_TestCase
 
     public function testGetValue1()
     {
-        $xacmlRequest = $this
-            ->getMockBuilder('Galmi\Xacml\Request')
-            ->setMethods(['get'])
-            ->getMock();
-        $xacmlRequest
-            ->method('get')
-            ->willReturn(['time' => '12:00']);
+        $xacmlRequest = new Request([
+            'Environment' => [
+                'time' => '12:00'
+            ]
+        ]);
 
         $entityManager = $this
             ->getMockBuilder('Doctrine\ORM\EntityManager')
@@ -154,13 +152,11 @@ class PolicyInformationPointTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetValue2()
     {
-        $xacmlRequest = $this
-            ->getMockBuilder('Galmi\Xacml\Request')
-            ->setMethods(['get'])
-            ->getMock();
-        $xacmlRequest
-            ->method('get')
-            ->willReturn(['time' => '12:00']);
+        $xacmlRequest = new Request([
+            'Environment' => [
+                'time' => '12:00'
+            ]
+        ]);
 
         $entityManager = $this
             ->getMockBuilder('Doctrine\ORM\EntityManager')
@@ -179,13 +175,7 @@ class PolicyInformationPointTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetValue3()
     {
-        $xacmlRequest = $this
-            ->getMockBuilder('Galmi\Xacml\Request')
-            ->setMethods(['get'])
-            ->getMock();
-        $xacmlRequest
-            ->method('get')
-            ->willReturn(null);
+        $xacmlRequest = new Request();
 
         $entityManager = $this
             ->getMockBuilder('Doctrine\ORM\EntityManager')
