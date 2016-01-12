@@ -38,20 +38,23 @@ class ResourceRequestListener
     public function onKernelRequest(GetResponseEvent $request)
     {
         $controller = $request->getRequest()->get('_controller');
-        list($class, $method) = explode('::', $controller);
-        $object = new \ReflectionMethod($class, $method);
-        foreach ($this->annotationsReader->getMethodAnnotations($object) as $configuration) {
-            if ($configuration instanceof XacmlResource) {
-                $resource = [
-                    $this->getBaseClassName($configuration->entity) => new Resource(
-                        $configuration->entity,
-                        $request->getRequest()->get($configuration->id)
-                    ),
-                ];
-                $this->xacmlRequest->set($this->category, $resource);
+        $controllerParts = explode('::', $controller);
+        if (is_array($controllerParts) && count($controllerParts) == 2) {
+            $class = $controllerParts[0];
+            $method = $controllerParts[1];
+            $object = new \ReflectionMethod($class, $method);
+            foreach ($this->annotationsReader->getMethodAnnotations($object) as $configuration) {
+                if ($configuration instanceof XacmlResource) {
+                    $resource = [
+                        $this->getBaseClassName($configuration->entity) => new Resource(
+                            $configuration->entity,
+                            $request->getRequest()->get($configuration->id)
+                        ),
+                    ];
+                    $this->xacmlRequest->set($this->category, $resource);
+                }
             }
         }
-
     }
 
     /**
