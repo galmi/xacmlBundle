@@ -1,3 +1,7 @@
+parameters:
+  galmi_xacml.combining_algorithm: 'first-applicable'
+  galmi_xacml.default_decision: 'Deny'
+
 services:
   galmi_xacml.policy.normalizer:
     class: Galmi\XacmlBundle\Serializer\Normalizer\PolicyNormalizer
@@ -7,7 +11,25 @@ services:
   galmi_xacml_request:
     class: Galmi\Xacml\Request
 
-  listener.galmi_xacml_request_environment:
+  galmi_xacml_combining_algorithm_registry:
+    class: Galmi\Xacml\CombiningAlgorithmRegistry
+
+  galmi_xacml_func_registry:
+    class: Galmi\Xacml\FuncRegistry
+
+  galmi_xacml.pep:
+    class: Galmi\XacmlBundle\Xacml\PolicyEnforcementPoint
+    arguments: [@galmi_xacml_request, @galmi_xacml.pdp]
+
+  galmi_xacml.pip:
+    class: Galmi\XacmlBundle\Xacml\PolicyInformationPoint
+    arguments: [@doctrine.orm.entity_manager]
+
+  galmi_xacml.pdp:
+    class: Galmi\XacmlBundle\Xacml\PolicyDecisionPoint
+    arguments: [@doctrine.orm.entity_manager, %galmi_xacml.combining_algorithm%, %galmi_xacml.default_decision%]
+
+  galmi_xacml.request_environment:
     class: Galmi\XacmlBundle\EventListener\EnvironmentRequestListener
     arguments: [@galmi_xacml_request]
     tags:
@@ -31,12 +53,8 @@ services:
     tags:
       - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
-  galmi_xacml.pep:
-    class: Galmi\XacmlBundle\Xacml\PolicyEnforcementPoint
+  galmi_xacml.xacml_request_listener:
+    class: Galmi\XacmlBundle\EventListener\XacmlRequestListener
     arguments: [@galmi_xacml_request, @galmi_xacml.pdp]
-
-  galmi_xacml.pip:
-    class: Galmi\XacmlBundle\Xacml\PolicyInformationPoint
-
-  galmi_xacml.pdp:
-    class: Galmi\XacmlBundle\Xacml\PolicyDecisionPoint
+    tags:
+      - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }

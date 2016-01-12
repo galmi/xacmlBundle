@@ -11,6 +11,8 @@
         <field name="description" column="description" type="string" nullable="true"/>
         <field name="target" column="target" type="object" nullable="false"/>
         <field name="policyCombiningAlgId" column="policy_combining_alg_id" nullable="false"/>
+        <field name="linked" column="linked" type="boolean" nullable="false"/>
+        <field name="active" column="active" type="boolean" nullable="false"/>
 
         <many-to-many target-entity="Galmi\XacmlBundle\Entity\PolicySet" field="policySets">
             <join-table name="policy_set_policy_set">

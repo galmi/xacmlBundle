@@ -6,6 +6,15 @@ namespace Galmi\XacmlBundle\Entity;
 class Policy extends \Galmi\Xacml\Policy
 {
 
+    /**
+     * @var bool
+     */
+    private $linked = false;
+
+    /**
+     * @var bool
+     */
+    private $active = true;
 
     /**
      * Set target
@@ -63,5 +72,37 @@ class Policy extends \Galmi\Xacml\Policy
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param boolean $active
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isLinked()
+    {
+        return $this->linked;
+    }
+
+    /**
+     * @param boolean $linked
+     */
+    public function setLinked($linked)
+    {
+        $this->linked = $linked;
     }
 }

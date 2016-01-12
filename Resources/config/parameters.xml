@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="galmi_xacml.combining_algorithm" type="constant">
+            Galmi\Xacml\CombiningAlgorithmRegistry::FIRST_APPLICABLE
+        </parameter>
+        <parameter key="galmi_xacml.default_decision" type="constant">Galmi\Xacml\Decision::DENY</parameter>
+    </parameters>
+</container>

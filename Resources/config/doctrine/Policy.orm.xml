@@ -11,6 +11,8 @@
         <field name="description" column="description" type="string" nullable="true"/>
         <field name="target" column="target" type="object" nullable="false"/>
         <field name="ruleCombiningAlgId" column="rule_combining_alg_id" nullable="false"/>
+        <field name="linked" column="linked" type="boolean" nullable="false"/>
+        <field name="active" column="active" type="boolean" nullable="false"/>
 
         <many-to-many target-entity="Galmi\XacmlBundle\Entity\Rule" field="rules">
             <join-table name="target_rules">
