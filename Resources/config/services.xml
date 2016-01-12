@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="galmi_xacml.combining_algorithm" type="constant">\Galmi\Xacml\CombiningAlgorithmRegistry::DENY_OVERRIDES</parameter>
+        <parameter key="galmi_xacml.default_decision" type="constant">Galmi\Xacml\Decision::DENY</parameter>
+    </parameters>
+
+    <services>
+        <service id="galmi_xacml.policy.normalizer" class="Galmi\XacmlBundle\Serializer\Normalizer\PolicyNormalizer">
+            <tag name="serializer.normalizer"/>
+        </service>
+        <service id="galmi_xacml_request" class="Galmi\Xacml\Request"/>
+        <service id="galmi_xacml_combining_algorithm_registry" class="Galmi\Xacml\CombiningAlgorithmRegistry"/>
+        <service id="galmi_xacml_func_registry" class="Galmi\Xacml\FuncRegistry"/>
+
+        <service id="galmi_xacml.pep" class="Galmi\XacmlBundle\Xacml\PolicyEnforcementPoint">
+            <argument type="service" id="galmi_xacml_request"/>
+            <argument type="service" id="galmi_xacml.pdp"/>
+        </service>
+        <service id="galmi_xacml.pip" class="Galmi\XacmlBundle\Xacml\PolicyInformationPoint">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+        </service>
+        <service id="galmi_xacml.pdp" class="Galmi\XacmlBundle\Xacml\PolicyDecisionPoint">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>%galmi_xacml.combining_algorithm%</argument>
+            <argument>%galmi_xacml.default_decision%</argument>
+        </service>
+
+        <service id="galmi_xacml.request_environment"
+                 class="Galmi\XacmlBundle\EventListener\EnvironmentRequestListener">
+            <argument type="service" id="galmi_xacml_request"/>
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest"/>
+        </service>
+        <service id="galmi_xacml.xacml_request_subject" class="Galmi\XacmlBundle\EventListener\SubjectRequestListener">
+            <argument type="service" id="galmi_xacml_request"/>
+            <argument type="service" id="security.token_storage"/>
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest"/>
+        </service>
+        <service id="galmi_xacml.xacml_request_action" class="Galmi\XacmlBundle\EventListener\ActionRequestListener">
+            <argument type="service" id="galmi_xacml_request"/>
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest"/>
+        </service>
+        <service id="galmi_xacml.xacml_request_resource"
+                 class="Galmi\XacmlBundle\EventListener\ResourceRequestListener">
+            <argument type="service" id="galmi_xacml_request"/>
+            <argument type="service" id="annotations.reader"/>
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest"/>
+        </service>
+        <service id="galmi_xacml.xacml_request_listener" class="Galmi\XacmlBundle\EventListener\XacmlRequestListener">
+            <argument type="service" id="galmi_xacml_request"/>
+            <argument type="service" id="galmi_xacml.pdp"/>
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest"/>
+        </service>
+
+    </services>
+</container>

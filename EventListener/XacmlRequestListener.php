@@ -7,7 +7,6 @@ use Galmi\Xacml\Request as XacmlRequest;
 use Galmi\XacmlBundle\Xacml\PolicyDecisionPoint;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class XacmlRequestListener
 {

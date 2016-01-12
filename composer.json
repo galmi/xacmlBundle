@@ -13,18 +13,15 @@
     "MIT"
   ],
   "require" : {
+    "php": ">=5.5.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.8.*",
+    "codeclimate/php-test-reporter": "^0.2.0"
   },
   "autoload" : {
-    "psr-0" : {
-      "Company\\DemoBundle" : ""
-    }
-  },
-  "target-dir" : "Galmi/XacmlBundle",
-  "repositories" : [{
-  }],
-  "extra" : {
-    "branch-alias" : {
-      "dev-master" : "master"
+    "psr-4" : {
+      "Galmi\\XacmlBundle" : ""
     }
   }
 }
