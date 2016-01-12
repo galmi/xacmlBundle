@@ -52,7 +52,7 @@ class PolicyInformationPoint implements AttributeFinder
             if (is_array($array) && isset($array[$attributePart])) {
                 $array = $array[$attributePart];
             } elseif (is_object($array)) {
-                $getter = $this->getSetter($attributePart);
+                $getter = $this->getGetter($attributePart);
                 $array = $array->$getter();
             } else {
                 throw new \Exception("Attribute {$attributeId} not found");
@@ -93,7 +93,7 @@ class PolicyInformationPoint implements AttributeFinder
      * @param $attributePart
      * @return string
      */
-    protected function getSetter($attributePart)
+    protected function getGetter($attributePart)
     {
         return 'get'.ucfirst($attributePart);
     }

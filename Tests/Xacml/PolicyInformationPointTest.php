@@ -11,7 +11,7 @@ use Galmi\XacmlBundle\Xacml\Resource;
 class PolicyInformationPointTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testGetSetter()
+    public function testGetGetter()
     {
         $entityManager = $this
             ->getMockBuilder('Doctrine\ORM\EntityManager')
@@ -19,8 +19,8 @@ class PolicyInformationPointTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $pip = new PolicyInformationPoint($entityManager);
-        $getSetter = self::getMethod('getSetter');
-        $this->assertEquals('getId', $getSetter->invokeArgs($pip, ['id']));
+        $getGetter = self::getMethod('getGetter');
+        $this->assertEquals('getId', $getGetter->invokeArgs($pip, ['id']));
     }
 
     /**
@@ -37,8 +37,8 @@ class PolicyInformationPointTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $pip = new PolicyInformationPoint($entityManager);
-        $getSetter = self::getMethod('getEntity');
-        $getSetter->invokeArgs($pip, ['Entity', null]);
+        $getGetter = self::getMethod('getEntity');
+        $getGetter->invokeArgs($pip, ['Entity', null]);
     }
 
     /**
@@ -56,8 +56,8 @@ class PolicyInformationPointTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $entityManager->method('getRepository')->willReturn(null);
         $pip = new PolicyInformationPoint($entityManager);
-        $getSetter = self::getMethod('getEntity');
-        $getSetter->invokeArgs($pip, ['Entity', 3]);
+        $getGetter = self::getMethod('getEntity');
+        $getGetter->invokeArgs($pip, ['Entity', 3]);
     }
 
     /**
@@ -89,8 +89,8 @@ class PolicyInformationPointTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $entityManager->method('getRepository')->willReturn($repository);
         $pip = new PolicyInformationPoint($entityManager);
-        $getSetter = self::getMethod('getEntity');
-        $this->assertInstanceOf('\stdClass', $getSetter->invokeArgs($pip, ['Entity', 3]));
+        $getGetter = self::getMethod('getEntity');
+        $this->assertInstanceOf('\stdClass', $getGetter->invokeArgs($pip, ['Entity', 3]));
     }
 
     /**
@@ -123,8 +123,8 @@ class PolicyInformationPointTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $entityManager->method('getRepository')->willReturn($repository);
         $pip = new PolicyInformationPoint($entityManager);
-        $getSetter = self::getMethod('getEntity');
-        $getSetter->invokeArgs($pip, ['Student', 3]);
+        $getGetter = self::getMethod('getEntity');
+        $getGetter->invokeArgs($pip, ['Student', 3]);
     }
 
     public function testGetValue1()
