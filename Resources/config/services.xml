@@ -4,8 +4,8 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services
         http://symfony.com/schema/dic/services/services-1.0.xsd">
     <parameters>
-        <parameter key="galmi_xacml.combining_algorithm" type="constant">\Galmi\Xacml\CombiningAlgorithmRegistry::DENY_OVERRIDES</parameter>
-        <parameter key="galmi_xacml.default_decision" type="constant">Galmi\Xacml\Decision::DENY</parameter>
+        <parameter key="galmi_xacml.default_combining_algorithm" type="constant">\Galmi\Xacml\CombiningAlgorithmRegistry::FIRST_APPLICABLE</parameter>
+        <parameter key="galmi_xacml.default_decision" type="constant">Galmi\Xacml\Decision::PERMIT</parameter>
     </parameters>
 
     <services>
@@ -25,7 +25,7 @@
         </service>
         <service id="galmi_xacml.pdp" class="Galmi\XacmlBundle\Xacml\PolicyDecisionPoint">
             <argument type="service" id="doctrine.orm.entity_manager"/>
-            <argument>%galmi_xacml.combining_algorithm%</argument>
+            <argument>%galmi_xacml.default_combining_algorithm%</argument>
             <argument>%galmi_xacml.default_decision%</argument>
         </service>
 
