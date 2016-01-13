@@ -39,8 +39,14 @@ class PolicyDecisionPoint
 
     public function evaluate(XacmlRequest $request)
     {
+        $action = $request->get('Action');
         //Error pages not have Action name
-        if (empty($request->get('Action'))) {
+        /**
+         * Permit access to:
+         * - Error pages with empty Action name
+         * - Actions for debug, started with "_"
+         */
+        if (empty($action) || substr($action, 0, 1) === '_') {
             return Decision::PERMIT;
         }
         $policies = $this->em->getRepository(PolicySet::class)->findNotLinkedPolicySets();
