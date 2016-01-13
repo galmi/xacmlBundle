@@ -3,6 +3,9 @@
 namespace Galmi\XacmlBundle\Entity;
 
 
+use Doctrine\Common\Collections\Collection;
+use Galmi\Xacml\Target;
+
 class Policy extends \Galmi\Xacml\Policy
 {
 
@@ -19,7 +22,7 @@ class Policy extends \Galmi\Xacml\Policy
     /**
      * Set target
      *
-     * @param \stdClass $target
+     * @param Target $target
      *
      * @return Policy
      */
@@ -104,5 +107,17 @@ class Policy extends \Galmi\Xacml\Policy
     public function setLinked($linked)
     {
         $this->linked = $linked;
+    }
+
+    /**
+     * @return array|\Galmi\Xacml\Rule[]
+     */
+    public function getRules()
+    {
+        $rules = parent::getRules();
+        if ($rules instanceof Collection) {
+            return $rules->toArray();
+        }
+        return $rules;
     }
 }

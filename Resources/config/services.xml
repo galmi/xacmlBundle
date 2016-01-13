@@ -25,6 +25,7 @@
         </service>
         <service id="galmi_xacml.pdp" class="Galmi\XacmlBundle\Xacml\PolicyDecisionPoint">
             <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="galmi_xacml_combining_algorithm_registry"/>
             <argument>%galmi_xacml.default_combining_algorithm%</argument>
             <argument>%galmi_xacml.default_decision%</argument>
         </service>

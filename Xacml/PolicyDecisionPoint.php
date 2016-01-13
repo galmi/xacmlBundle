@@ -27,16 +27,22 @@ class PolicyDecisionPoint
 
     public function __construct(
         EntityManager $em,
+        CombiningAlgorithmRegistry $combiningAlgorithmRegistry,
         $combiningAlgId,
         $defaultDecision
     ) {
         $this->em = $em;
+        $this->combiningAlgorithmRegistry = $combiningAlgorithmRegistry;
         $this->combiningAlgId = $combiningAlgId;
         $this->defaultDecision = $defaultDecision;
     }
 
     public function evaluate(XacmlRequest $request)
     {
+        //Error pages not have Action name
+        if (empty($request->get('Action'))) {
+            return Decision::PERMIT;
+        }
         $policies = $this->em->getRepository(PolicySet::class)->findNotLinkedPolicySets();
         if (empty($policies)) {
             $policies = $this->em->getRepository(Policy::class)->findNotLinkedPolicies();
