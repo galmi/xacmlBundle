@@ -43,16 +43,17 @@ class ResourceRequestListener
             $class = $controllerParts[0];
             $method = $controllerParts[1];
             $object = new \ReflectionMethod($class, $method);
+            $resources = [];
             foreach ($this->annotationsReader->getMethodAnnotations($object) as $configuration) {
                 if ($configuration instanceof XacmlResource) {
-                    $resource = [
-                        $this->getBaseClassName($configuration->entity) => new Resource(
-                            $configuration->entity,
-                            $request->getRequest()->get($configuration->id)
-                        ),
-                    ];
-                    $this->xacmlRequest->set($this->category, $resource);
+                    $resources[$this->getBaseClassName($configuration->entity)] = new Resource(
+                        $configuration->entity,
+                        $request->getRequest()->get($configuration->id)
+                    );
                 }
+            }
+            if (!empty($resources)) {
+                $this->xacmlRequest->set($this->category, $resources);
             }
         }
     }

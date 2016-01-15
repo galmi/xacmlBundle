@@ -2,12 +2,14 @@
 
 namespace Galmi\XacmlBundle\Xacml;
 
-
+use Galmi\Xacml\Decision;
 use Galmi\Xacml\Request as XacmlRequest;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 class PolicyEnforcementPoint
 {
+
     /** @var XacmlRequest */
     private $xacmlRequest;
 
@@ -20,17 +22,12 @@ class PolicyEnforcementPoint
         $this->pdp = $pdp;
     }
 
-    public function test()
+    public function onKernelRequest(GetResponseEvent $event)
     {
-        print_r($this->xacmlRequest);
-        exit;
-    }
-
-    public function isGranted($resource, $action)
-    {
-        $xacml = clone $this->xacmlRequest;
-        $xacml->set('Resource', $resource);
-        $xacml->set('Action', $action);
-        $this->pdp->evaluate($xacml);
+        $pdpDecision = $this->pdp->evaluate($this->xacmlRequest);
+        if ($pdpDecision == Decision::DENY) {
+            $response = new Response('Access denied', 403);
+            $event->setResponse($response);
+        }
     }
 }

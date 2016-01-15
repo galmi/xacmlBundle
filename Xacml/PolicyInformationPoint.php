@@ -38,10 +38,16 @@ class PolicyInformationPoint implements AttributeFinder
                 if (empty($array)) {
                     //Check if attribute part is Resource
                     $array = $request->get('Resource');
-                    if (!empty($array) && isset($array[$attributePart]) && $array[$attributePart] instanceof XacmlResource) {
-                        /** @var XacmlResource $resource */
-                        $resource = $array[$attributeParts[0]];
-                        $array = $this->getEntity($resource->getEntity(), $resource->getId());
+                    if (!empty($array) &&
+                        isset($array[$attributePart])
+                    ) {
+                        if ($array[$attributePart] instanceof XacmlResource) {
+                            /** @var XacmlResource $resource */
+                            $resource = $array[$attributeParts[0]];
+                            $array = $this->getEntity($resource->getEntity(), $resource->getId());
+                        } elseif (is_object($array[$attributePart])) {
+                            $array = $array[$attributePart];
+                        }
                     }
                 }
                 if (empty($array)) {
