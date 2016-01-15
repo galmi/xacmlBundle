@@ -44,7 +44,7 @@ class PolicyInformationPoint implements AttributeFinder
                         if ($array[$attributePart] instanceof XacmlResource) {
                             /** @var XacmlResource $resource */
                             $resource = $array[$attributeParts[0]];
-                            $array = $this->getEntity($resource->getEntity(), $resource->getId());
+                            $array = $this->getEntity($resource);
                         } elseif (is_object($array[$attributePart])) {
                             $array = $array[$attributePart];
                         }
@@ -71,23 +71,24 @@ class PolicyInformationPoint implements AttributeFinder
     /**
      * Get entity object by class name and identifier
      *
-     * @param $entity
-     * @param $id
+     * @param XacmlResource $resource
      * @return null|object
      * @throws \Exception
      */
-    protected function getEntity($entity, $id)
+    protected function getEntity(XacmlResource $resource)
     {
+        $id = $resource->getId();
         if (empty($id)) {
-            throw new \Exception("Empty identifier of repository {$entity}");
+            throw new \Exception("Empty identifier of repository {$resource->getEntity()}");
         }
-        $repository = $this->em->getRepository($entity);
+        $repository = $this->em->getRepository($resource->getEntity());
         if (empty($repository)) {
-            throw new \Exception("Repository for {$entity} not found");
+            throw new \Exception("Repository for {$resource->getEntity()} not found");
         }
-        $object = $repository->find($id);
+        $method = $resource->getMethod();
+        $object = $repository->$method($id);
         if (empty($object)) {
-            throw new \Exception("Entity {$entity} with identifier {$id} not found");
+            throw new \Exception("Entity {$resource->getEntity()} with identifier {$id} not found");
         }
 
         return $object;

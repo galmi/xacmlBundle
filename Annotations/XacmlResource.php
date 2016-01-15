@@ -17,4 +17,7 @@ class XacmlResource
 
     /** @var string */
     public $id;
+
+    /** @var string */
+    public $method = 'find';
 }

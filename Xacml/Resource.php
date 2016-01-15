@@ -16,10 +16,14 @@ class Resource
     /** @var integer|string */
     private $id;
 
-    public function __construct($entity, $id)
+    /** @var string */
+    private $method;
+
+    public function __construct($entity, $id, $method = 'find')
     {
         $this->entity = $entity;
         $this->id = $id;
+        $this->method = $method;
     }
 
     /**
@@ -36,5 +40,13 @@ class Resource
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMethod()
+    {
+        return $this->method;
     }
 }

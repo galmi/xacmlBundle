@@ -48,7 +48,8 @@ class ResourceRequestListener
                 if ($configuration instanceof XacmlResource) {
                     $resources[$this->getBaseClassName($configuration->entity)] = new Resource(
                         $configuration->entity,
-                        $request->getRequest()->get($configuration->id)
+                        $request->getRequest()->get($configuration->id),
+                        $configuration->method
                     );
                 }
             }

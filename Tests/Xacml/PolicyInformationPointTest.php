@@ -38,7 +38,8 @@ class PolicyInformationPointTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $pip = new PolicyInformationPoint($entityManager);
         $getGetter = self::getMethod('getEntity');
-        $getGetter->invokeArgs($pip, ['Entity', null]);
+        $resource = new Resource('Entity', null);
+        $getGetter->invokeArgs($pip, [$resource]);
     }
 
     /**
@@ -57,7 +58,8 @@ class PolicyInformationPointTest extends \PHPUnit_Framework_TestCase
         $entityManager->method('getRepository')->willReturn(null);
         $pip = new PolicyInformationPoint($entityManager);
         $getGetter = self::getMethod('getEntity');
-        $getGetter->invokeArgs($pip, ['Entity', 3]);
+        $resource = new Resource('Entity', 3);
+        $getGetter->invokeArgs($pip, [$resource]);
     }
 
     /**
@@ -90,7 +92,8 @@ class PolicyInformationPointTest extends \PHPUnit_Framework_TestCase
         $entityManager->method('getRepository')->willReturn($repository);
         $pip = new PolicyInformationPoint($entityManager);
         $getGetter = self::getMethod('getEntity');
-        $this->assertInstanceOf('\stdClass', $getGetter->invokeArgs($pip, ['Entity', 3]));
+        $resource = new Resource('Entity', 3);
+        $this->assertInstanceOf('\stdClass', $getGetter->invokeArgs($pip, [$resource]));
     }
 
     /**
@@ -124,7 +127,8 @@ class PolicyInformationPointTest extends \PHPUnit_Framework_TestCase
         $entityManager->method('getRepository')->willReturn($repository);
         $pip = new PolicyInformationPoint($entityManager);
         $getGetter = self::getMethod('getEntity');
-        $getGetter->invokeArgs($pip, ['Student', 3]);
+        $resource = new Resource('Student', 3);
+        $getGetter->invokeArgs($pip, [$resource]);
     }
 
     public function testGetValue1()
