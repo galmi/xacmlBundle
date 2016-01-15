@@ -16,10 +16,6 @@
         <service id="galmi_xacml_combining_algorithm_registry" class="Galmi\Xacml\CombiningAlgorithmRegistry"/>
         <service id="galmi_xacml_func_registry" class="Galmi\Xacml\FuncRegistry"/>
 
-        <service id="galmi_xacml.pep" class="Galmi\XacmlBundle\Xacml\PolicyEnforcementPoint">
-            <argument type="service" id="galmi_xacml_request"/>
-            <argument type="service" id="galmi_xacml.pdp"/>
-        </service>
         <service id="galmi_xacml.pip" class="Galmi\XacmlBundle\Xacml\PolicyInformationPoint">
             <argument type="service" id="doctrine.orm.entity_manager"/>
         </service>
@@ -28,6 +24,18 @@
             <argument type="service" id="galmi_xacml_combining_algorithm_registry"/>
             <argument>%galmi_xacml.default_combining_algorithm%</argument>
             <argument>%galmi_xacml.default_decision%</argument>
+        </service>
+
+        <service id="security.xacml_authorization_checker"
+                 class="Galmi\XacmlBundle\Security\Core\Authorization\AuthorizationChecker">
+            <argument type="service" id="galmi_xacml_request"/>
+            <argument type="service" id="galmi_xacml.pdp"/>
+        </service>
+
+        <!-- Twig extension for function is_xacml_granted(<action>, <object>) -->
+        <service id="twig.extension.galmi_xacml.security" class="Galmi\XacmlBundle\Twig\Extension\SecurityExtension" public="false">
+            <argument type="service" id="security.xacml_authorization_checker" on-invalid="ignore" />
+            <tag name="twig.extension" />
         </service>
 
         <service id="galmi_xacml.request_environment"
@@ -50,7 +58,7 @@
             <argument type="service" id="annotations.reader"/>
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest"/>
         </service>
-        <service id="galmi_xacml.xacml_request_listener" class="Galmi\XacmlBundle\EventListener\XacmlRequestListener">
+        <service id="galmi_xacml.xacml_request_listener" class="Galmi\XacmlBundle\Xacml\PolicyEnforcementPoint">
             <argument type="service" id="galmi_xacml_request"/>
             <argument type="service" id="galmi_xacml.pdp"/>
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest"/>
