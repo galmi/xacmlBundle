@@ -46,11 +46,13 @@ class ResourceRequestListener
             $resources = [];
             foreach ($this->annotationsReader->getMethodAnnotations($object) as $configuration) {
                 if ($configuration instanceof XacmlResource) {
-                    $resources[$this->getBaseClassName($configuration->entity)] = new Resource(
+                    $baseClassName = $this->getBaseClassName($configuration->entity);
+                    $resources[$baseClassName] = new Resource(
                         $configuration->entity,
                         $request->getRequest()->get($configuration->id),
                         $configuration->method
                     );
+                    $resources['type'] = $baseClassName;
                 }
             }
             if (!empty($resources)) {

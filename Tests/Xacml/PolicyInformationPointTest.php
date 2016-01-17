@@ -223,6 +223,37 @@ class PolicyInformationPointTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Peter', $pip->getValue($xacmlRequest, 'Student.name'));
     }
 
+    public function testGetValue5()
+    {
+        $resource = new Resource('Test\Student', 1);
+        $xacmlRequest = new Request([
+            'Resource' => [
+                'Student' => $resource,
+                'type' => 'Student'
+            ]
+        ]);
+
+        $repository = $this
+            ->getMockBuilder('Doctrine\ORM\EntityRepository')
+            ->disableOriginalConstructor()
+            ->setMethods(array('find'))
+            ->getMock();
+
+        $repository
+            ->method('find')
+            ->will($this->returnValue(new Student('Peter')));
+
+        $entityManager = $this
+            ->getMockBuilder('Doctrine\ORM\EntityManager')
+            ->setMethods(array('getRepository'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $entityManager->method('getRepository')->willReturn($repository);
+        $pip = new PolicyInformationPoint($entityManager);
+
+        $this->assertEquals('Student', $pip->getValue($xacmlRequest, 'Resource.type'));
+    }
+
     protected static function getMethod($name)
     {
         $class = new \ReflectionClass('Galmi\XacmlBundle\Xacml\PolicyInformationPoint');
