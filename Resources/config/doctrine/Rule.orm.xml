@@ -9,6 +9,6 @@
     <field name="effect" column="effect" type="string"/>
     <field name="description" column="description" type="string" nullable="true"/>
     <field name="target" column="target" type="object" nullable="true"/>
-    <field name="condition" column="condition" type="object" nullable="true"/>
+    <field name="condition" column="conditions" type="object" nullable="true"/>
 </entity>
 </doctrine-mapping>
