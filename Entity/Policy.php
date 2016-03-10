@@ -20,64 +20,6 @@ class Policy extends \Galmi\Xacml\Policy
     private $active = true;
 
     /**
-     * Set target
-     *
-     * @param Target $target
-     *
-     * @return Policy
-     */
-    public function setTarget($target)
-    {
-        $this->target = $target;
-
-        return $this;
-    }
-
-    /**
-     * Get target
-     *
-     * @return \stdClass
-     */
-    public function getTarget()
-    {
-        return $this->target;
-    }
-
-    /**
-     * Set ruleCombiningAlgId
-     *
-     * @param string $ruleCombiningAlgId
-     *
-     * @return Policy
-     */
-    public function setRuleCombiningAlgId($ruleCombiningAlgId)
-    {
-        $this->ruleCombiningAlgId = $ruleCombiningAlgId;
-
-        return $this;
-    }
-
-    /**
-     * Get ruleCombiningAlgId
-     *
-     * @return string
-     */
-    public function getRuleCombiningAlgId()
-    {
-        return $this->ruleCombiningAlgId;
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
      * @return boolean
      */
     public function isActive()
