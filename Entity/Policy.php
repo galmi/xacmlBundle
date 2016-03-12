@@ -3,11 +3,17 @@
 namespace Galmi\XacmlBundle\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Galmi\Xacml\Target;
 
 class Policy extends \Galmi\Xacml\Policy
 {
+
+    public function __construct()
+    {
+        $this->rules = new ArrayCollection();
+    }
 
     /**
      * @var bool
@@ -61,5 +67,14 @@ class Policy extends \Galmi\Xacml\Policy
             return $rules->toArray();
         }
         return $rules;
+    }
+
+    public function setRules($rules)
+    {
+        foreach($rules as $rule) {
+            $this->rules->add($rule);
+        }
+
+        return $this;
     }
 }

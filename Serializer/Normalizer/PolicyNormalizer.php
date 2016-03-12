@@ -39,12 +39,17 @@ class PolicyNormalizer extends AbstractNormalizer
      */
     public function normalize($object, $format = null, array $context = array())
     {
+        $rules = [];
+        foreach($object->getRules() as $rule) {
+            $rules[] = $rule->getId();
+        }
         return [
             'id' => $object->getId(),
             'description' => $object->getDescription(),
             'version' => $object->getVersion(),
             'ruleCombiningAlgId' => $object->getRuleCombiningAlgId(),
             'target' => $this->serializer->normalize($object->getTarget(), $format, $context),
+            'rules' => $rules
         ];
     }
 
