@@ -69,12 +69,4 @@ class Policy extends \Galmi\Xacml\Policy
         return $rules;
     }
 
-    public function setRules($rules)
-    {
-        foreach($rules as $rule) {
-            $this->rules->add($rule);
-        }
-
-        return $this;
-    }
 }
